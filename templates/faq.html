@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوالات متداول</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; padding: 20px; }
+        .faq-container { max-width: 800px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); overflow: hidden; }
+        .faq-header { background: linear-gradient(93deg, #4a6cf7, #6f42c1); color: white; padding: 25px; text-align: center; }
+        .faq-list { padding: 20px; }
+        .faq-item { background: #fafafa; margin: 15px 0; padding: 20px; border-radius: 12px; border-left: 4px solid #4a6cf7; }
+        .faq-question { font-weight: bold; color: #2c3e50; margin-bottom: 10px; font-size: 1.1rem; }
+        .faq-answer { color: #34495e; line-height: 1.6; }
+        .faq-count { background: #e8f4ff; color: #4a6cf7; padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-bottom: 10px; }
+        .no-faq { text-align: center; padding: 40px; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="faq-container">
+        <div class="faq-header">
+            <h1>سوالات متداول</h1>
+            <p>پرتکرارترین سوالات دانشجویان و پاسخ‌های آنها</p>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+    </div>
+
+    <script>
+        async function loadFAQ() {
+            try {
+                const res = await fetch('/get-faq');
+                const data = await res.json();
+                const container = document.getElementById('faqList');
+                
+                if (data.faqs.length === 0) {
+                    container.innerHTML = '<div class="no-faq"><h3>هنوز سوال متداولی وجود ندارد.</h3><p>اولین کسی باشید که سوال بپرسید!</p></div>';
+                    return;
+                }
+                
+                container.innerHTML = data.faqs.map(faq => `
+                    <div class="faq-item">
+                        <div class="faq-count">پرسیده شده: ${faq.count} بار</div>
+                        <div class="faq-question">${faq.question}</div>
+                        <div class="faq-answer">${faq.answer}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error("خطا در بارگذاری FAQ:", e);
+                document.getElementById('faqList').innerHTML = '<div class="no-faq"><p>خطا در بارگذاری سوالات متداول.</p></div>';
+            }
+        }
+        
+        loadFAQ();
+        setInterval(loadFAQ, 30000);
+    </script>
+</body>
+</html>
