@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ربات آموزش زبان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chatbox">
+        <div class="chatbox__support">
+            <div class="chatbox__header">
+                <div class="chatbox__image--header">
+                    <img src="{{ url_for('static', filename='image.png') }}" alt="Logo">
+                </div>
+                <div class="chatbox__content--header">
+                    <h4 class="chatbox__heading--header">ربات آموزش زبان</h4>
+                    <p class="chatbox__description--header">سوالات خود را بپرسید.</p>
+                </div>
+            </div>
+            <div class="chatbox__messages" id="chatMessages"></div>
+            <div class="chatbox__footer">
+                <input type="text" placeholder="پیام خود را بنویسید یا ضبط کنید...">
+                <button class="chatbox__mic--footer mic__button">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="chatbox__send--footer send__button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatbox__button">
+        <button>Chat</button>
+    </div>
+
+    <div class="faq-button">
+        <a href="/faq" target="_blank">سوالات متداول</a>
+    </div>
+
+    <script>
+        const STUDENT_ID = "{{ student_id }}";
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
